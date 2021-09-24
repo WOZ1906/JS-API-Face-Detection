@@ -33,13 +33,13 @@ function gotFaces(error, result) {
     }
     detections = result;
     console.log(detections);
-    faceapi.detect(gotFaces);
-}
 
-function draw() {
     clear();
     drawBoxes(detections);
     drawLandmarks(detections);  
+    drawExpressions(detections, 20, 250, 14);
+
+    faceapi.detect(gotFaces);
 }
 
 function drawBoxes(detections) {
@@ -69,5 +69,31 @@ function drawLandmarks(detections) {
     }
 
     function drawExpressions(detections, x, y, textYspace) {
-        
+        textFont('Roboto');
+        textSize(14);
+        noStroke();
+        fill(44, 169, 225);
+
+        if(detections.length > 0) {
+            let {neutral, happy, angry, sad, disgusted, surprised, fearful} = detections[0].expressions;
+
+            text("neutral: " + nf(neutral * 100, 2, 2) + "%", x, y);
+            text("happy: " + nf(happy * 100, 2, 2) + "%", x, y + textYspace);
+            text("angry: " + nf(angry * 100, 2, 2) + "%", x, y + textYspace * 2);
+            text("sad: " + nf(sad * 100, 2, 2) + "%", x, y + textYspace * 3);
+            text("disgusted: " + nf(disgusted * 100, 2, 2) + "%", x, y + textYspace * 4);
+            text("surprised: " + nf(surprised * 100, 2, 2) + "%", x, y + textYspace * 5);
+            text("fearful: " + nf(fearful * 100, 2, 2) + "%", x, y + textYspace * 6);
+        }else{
+            text("neutral: ", x, y);
+            text("happy: ", x, y + textYspace );
+            text("angry: ", x, y + textYspace * 2);
+            text("sad: ", x, y + textYspace * 3);
+            text("disgusted: ", x, y + textYspace * 4);
+            text("surprised: ", x, y + textYspace * 5);
+            text("fearful: ", x, y + textYspace * 6);
+            
+
+        }
+                               
     }
